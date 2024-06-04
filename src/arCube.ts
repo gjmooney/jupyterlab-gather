@@ -19,6 +19,8 @@ export interface IScaleSignal {
   scale: number;
 }
 
+type Dict<T> = { [keys: string]: T };
+
 class ArCube {
   sceneGroup2: THREE.Group<THREE.Object3DEventMap>;
   gltfModel2: THREE.Group<THREE.Object3DEventMap>;
@@ -41,7 +43,8 @@ class ArCube {
     // });
   }
 
-  loadedModels: string[];
+  modelInScene: string[];
+  scenesWithModel: Dict<number[]>;
   clock: THREE.Clock;
   scene: THREE.Scene;
   camera: THREE.Camera;
@@ -100,7 +103,8 @@ class ArCube {
 
   initialize() {
     this.sceneGroups = [];
-    this.loadedModels = [];
+    this.modelInScene = new Array(2);
+    this.scenesWithModel = {};
     hmsStore.subscribe(
       this.setupSource.bind(this),
       selectAppData('videoDeviceId')
@@ -422,6 +426,7 @@ class ArCube {
       objectGroup.children = filterOutPlanes;
     });
 
+    // handle animations
     this.animations = gltf.animations;
     this.mixer = new THREE.AnimationMixer(gltfModel);
 
@@ -445,20 +450,35 @@ class ArCube {
     scaledModelBoundingBox.getCenter(modelCenter);
     gltfModel.position.set(-modelCenter.x, -modelCenter.y, -modelCenter.z);
 
+    // add model to scene
     this.sceneGroups[sceneNumber].add(gltfModel);
     this.okToLoadModel = true;
 
-    // Update loaded models list
-    const updatedModels = [
-      ...this.loadedModels.slice(0, sceneNumber),
-      modelName,
-      ...this.loadedModels.slice(sceneNumber)
+    // Track which scenes a model is loaded in
+    // This is mostly to reflect changes to a model in JupyterCAD if it's loaded
+    // in multiple scenes
+    const updatedScenesWithModel = { ...this.scenesWithModel };
+
+    if (!(modelName in updatedScenesWithModel)) {
+      updatedScenesWithModel[modelName] = [];
+    }
+
+    updatedScenesWithModel[modelName] = [
+      ...updatedScenesWithModel[modelName],
+      sceneNumber
     ];
 
-    hmsActions.setAppData('loadedModels', updatedModels);
+    this.scenesWithModel = updatedScenesWithModel;
+
+    // Track which model is loaded in which scene
+    // This is to get model names on the scale sliders
+    this.modelInScene[sceneNumber] = modelName;
+
+    // update app data state
+    hmsActions.setAppData('loadedModels', updatedScenesWithModel);
     hmsActions.setAppData('canLoadModel', true);
 
-    // Send scale value to left sidebar
+    // Send scale value to right sidebar
     this.scaleSignal.emit({ sceneNumber, scale: minRatio });
 
     console.log('model loaded parse');
