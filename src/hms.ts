@@ -26,7 +26,7 @@ const initialAppData = {
   isPresenting: false,
   presenterId: '',
   selectedModel: null,
-  loadedModels: [],
+  loadedModels: {},
   isConnecting: false
 };
 
