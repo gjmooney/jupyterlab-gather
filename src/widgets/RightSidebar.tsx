@@ -36,7 +36,9 @@ const ScaleSlider = ({
 
   return (
     <div className="jlab-gather-scale-slider">
-      <p>{sceneNumber === 0 ? 'First Model' : 'Second Model'}</p>
+      <p style={{ textTransform: 'capitalize' }}>
+        {arCube?.modelInScene[sceneNumber]}
+      </p>
       <Slider
         className="slider"
         min={initialScale / SCALE_FACTOR}
