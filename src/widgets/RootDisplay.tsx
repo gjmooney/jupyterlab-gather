@@ -3,7 +3,7 @@ import { IChangedArgs } from '@jupyterlab/coreutils';
 import { IStateDB } from '@jupyterlab/statedb';
 import { ReactWidget } from '@jupyterlab/ui-components';
 import { ISignal } from '@lumino/signaling';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { MainDisplay } from '../components/MainDisplay';
 import { TypedHMSRoomProvider, hmsActions } from '../hms';
 import { IModelRegistry, IModelRegistryData } from '../registry';
@@ -25,6 +25,7 @@ const RootDisplay = ({
   themeChangedSignal
 }: IRootDisplayProps) => {
   const childRef = useRef(null);
+  const [height, setHeight] = useState(800);
 
   useEffect(() => {
     hmsActions.setAppData('themeChanged', themeChangedSignal);
@@ -37,10 +38,22 @@ const RootDisplay = ({
       const parent = (childRef.current as HTMLElement).parentElement;
       parent?.classList.add('jlab-gather-overflow');
     }
+
+    const rootHeight = document.getElementById('jlab-gather-root');
+
+    if (rootHeight) {
+      console.log('WOOP');
+      setHeight(rootHeight.clientHeight);
+    }
   }, [childRef]);
 
   return (
-    <div ref={childRef} className="jlab-gather-root">
+    <div
+      ref={childRef}
+      id="jlab-gather-root"
+      className="jlab-gather-root"
+      style={{ height: height }}
+    >
       <MainDisplay state={state} />
     </div>
   );
