@@ -40,7 +40,7 @@ const RootDisplay = ({
   }, [childRef]);
 
   return (
-    <div ref={childRef} className="jlab-gather-root">
+    <div ref={childRef} id="jlab-gather-rootId" className="jlab-gather-root">
       <MainDisplay state={state} />
     </div>
   );

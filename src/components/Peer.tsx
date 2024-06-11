@@ -23,9 +23,11 @@ export type Location = 'grid' | 'sidepane' | 'preview';
 interface IPeer {
   peer: HMSPeer;
   location: Location;
+  width?: number;
+  height?: number;
 }
 
-const Peer = ({ peer, location }: IPeer) => {
+const Peer = ({ peer, location, height, width }: IPeer) => {
   // TODO: Use peer id instead of Peer
   const { videoRef } = useVideo({
     trackId: peer.videoTrack
@@ -88,7 +90,10 @@ const Peer = ({ peer, location }: IPeer) => {
   };
 
   return (
-    <div className={`jlab-gather-peer-tile jlab-gather-peer-tile-${location}`}>
+    <div
+      className={`jlab-gather-peer-tile jlab-gather-peer-tile-${location}`}
+      style={{ height: height, width: width }}
+    >
       {location === 'grid' && getConnectionQualityIcon()}
       {peer.isHandRaised ? (
         <FontAwesomeIcon
