@@ -280,10 +280,12 @@
   display: flex;
   justify-content: center;
   width: 100%;
-  padding: 2rem;
+  padding: 0.5rem;
 }
 
 .jlab-gather-presenter-video {
+  height: 100%;
+  width: 100%;
   position: sticky;
   top: 0;
   max-width: inherit;
