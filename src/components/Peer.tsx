@@ -111,14 +111,14 @@ const Peer = ({ peer, location, height, width }: IPeer) => {
           <video
             ref={videoRef}
             className={`jlab-gather-peer-video jlab-gather-peer-video-${location} 
-            ${peer.isLocal ? 'jlab-gather-local' : ''}
-            
-            `}
+            ${peer.isLocal ? 'jlab-gather-local' : ''}`}
             autoPlay
             muted
             playsInline
           />
-          <div className="jlab-gather-peer-name">{peer.name}</div>
+          {location !== 'presenter' && (
+            <div className="jlab-gather-peer-name">{peer.name}</div>
+          )}
         </>
       ) : (
         <Avatar
