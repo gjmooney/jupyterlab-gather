@@ -310,6 +310,10 @@
   font-size: 2rem;
 }
 
+.jlab-gather-icon-small {
+  font-size: 0.75rem;
+}
+
 .jlab-gather-icon-breathe {
   animation: breathe 3s infinite alternate;
   color: #f37726;

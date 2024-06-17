@@ -4,6 +4,7 @@ import {
   selectDominantSpeaker,
   selectIsPeerVideoEnabled,
   selectVideoTrackByPeerID,
+  useAVToggle,
   useHMSStore,
   useVideo
 } from '@100mslive/react-sdk';
@@ -13,7 +14,11 @@ import {
   faFaceSmileBeam,
   faFaceTired
 } from '@fortawesome/free-regular-svg-icons';
-import { faHand } from '@fortawesome/free-solid-svg-icons';
+import {
+  faHand,
+  faMicrophone,
+  faMicrophoneSlash
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import Avatar from './Avatar';
@@ -34,6 +39,7 @@ const Peer = ({ peer, location, height, width }: IPeer) => {
   });
   const videoTrack = useHMSStore(selectVideoTrackByPeerID(peer.id));
   const isPeerVideoEnabled = useHMSStore(selectIsPeerVideoEnabled(peer.id));
+  const { isLocalAudioEnabled, toggleAudio } = useAVToggle();
 
   const dominantSpeaker = useHMSStore(selectDominantSpeaker);
   const downlinkQuality = useHMSStore(
@@ -117,7 +123,21 @@ const Peer = ({ peer, location, height, width }: IPeer) => {
             playsInline
           />
           {location !== 'presenter' && (
-            <div className="jlab-gather-peer-name">{peer.name}</div>
+            <div className="jlab-gather-peer-name">
+              {isLocalAudioEnabled ? (
+                <FontAwesomeIcon
+                  icon={faMicrophone}
+                  className="jlab-gather-icon-small"
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faMicrophoneSlash}
+                  className="jlab-gather-icon-small"
+                />
+              )}
+              {'  '}
+              {peer.name}
+            </div>
           )}
         </>
       ) : (
