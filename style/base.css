@@ -114,6 +114,10 @@
 .jlab-gather-peer-tile-grid {
   align-items: center;
   flex-grow: 1;
+  position: relative;
+}
+
+.jlab-gather-peer-tile-grid.jlab-gather-peer-tile-grid-bg {
   background-color: var(--gather-speaker-bg);
 }
 
@@ -311,6 +315,7 @@
 }
 
 .jlab-gather-icon-small {
+  width: 15px;
   font-size: 0.75rem;
 }
 
@@ -370,7 +375,7 @@
 }
 
 .jlab-gather-avatar-grid {
-  height: 60%;
+  /* height: 60%; */
 }
 
 .jlab-gather-avatar-sidepane {

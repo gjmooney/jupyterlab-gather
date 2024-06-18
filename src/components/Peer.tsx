@@ -39,7 +39,7 @@ const Peer = ({ peer, location, height, width }: IPeer) => {
   });
   const videoTrack = useHMSStore(selectVideoTrackByPeerID(peer.id));
   const isPeerVideoEnabled = useHMSStore(selectIsPeerVideoEnabled(peer.id));
-  const { isLocalAudioEnabled, toggleAudio } = useAVToggle();
+  const { isLocalAudioEnabled } = useAVToggle();
 
   const dominantSpeaker = useHMSStore(selectDominantSpeaker);
   const downlinkQuality = useHMSStore(
@@ -100,6 +100,7 @@ const Peer = ({ peer, location, height, width }: IPeer) => {
       className={`jlab-gather-peer-tile jlab-gather-peer-tile-${location} 
       ${peer.isHandRaised ? 'jlab-gather-peer-hand-raised' : ''}
       ${peer.id === dominantSpeaker?.id ? 'jlab-gather-active-speaker' : ''}
+      ${!isPeerVideoEnabled ? 'jlab-gather-peer-tile-grid-bg' : ''}
       `}
       style={{ height: height, width: width }}
     >
