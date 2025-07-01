@@ -345,7 +345,7 @@ class ArCube {
       new THREEx.ArMarkerControls(this.arToolkitContext, hiroRoot, {
         type: 'pattern',
         patternUrl:
-          'https://raw.githubusercontent.com/QuantStack/jupyterlab-gather/main/pattern-files/pattern-' +
+          'https://raw.githubusercontent.com/QuantStack/jupyterlab-gather/main/resources/pattern-files/pattern-' +
           this.patternArraySecondModel[i] +
           '.patt'
       });
